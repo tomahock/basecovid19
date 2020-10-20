@@ -229,4 +229,30 @@ class DataStore
         $result = $collection->aggregate($pipeline)->toArray()[0];
         return $result['total'];
     }
+
+    static public function getTopContracted()
+    {
+        $collection = self::connect()->data;
+
+        $pipeline = array(
+            array('$unwind' => array('path' => '$contracted')),
+            array(
+                '$group' => array(
+                    '_id' => '$contracted.nif',
+                    'count' => array(
+                        '$sum' => 1
+                    ),
+                    'sum_price' => array(
+                        '$sum' => '$price'
+                    )
+                )
+            ),
+            array(
+                '$sort' => array('count' => -1)
+            ),
+        );
+
+        $result = $collection->aggregate($pipeline)->toArray();
+        return $result;
+    }
 }
