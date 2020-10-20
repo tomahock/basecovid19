@@ -1,0 +1,13 @@
+$primary:       #C0242D !default;
+$secondary:     #85323A !default;
+
+
+// Bootstrap file partials
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+$highlight: #C08894 !default;
+.highlight{
+  background-color: $highlight;
+}
+
+

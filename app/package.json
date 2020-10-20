@@ -1,0 +1,23 @@
+{
+  "name": "BaseCOVID19.pt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "cs-watch": "node-sass scss/main.scss public/css/style.css --watch",
+    "cs-compile": "node-sass scss/main.scss public/css/style.comp.css",
+    "cs-prefix": "postcss public/css/style.comp.css --use autoprefixer -b 'last 4 versions' -o public/css/style.prefix.css",
+    "cs-compress": "node-sass public/css/style.prefix.css public/css/style.mini.css --output-style compressed",
+    "cs-build": "npm-run-all cs-compile cs-prefix cs-compress"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.5.3",
+    "create-scss": "^2.5.5"
+  }
+}

@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx
+    restart: always
+    volumes:
+      - ./app:/var/www/html
+      - ./logs:/var/log/nginx
+      - ./nginx:/etc/nginx/conf.d
+    ports:
+      - "8086:80"
+
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./app:/var/www/html
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: MongoDB2019!
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+
+
+volumes:
+  data:
+  app:

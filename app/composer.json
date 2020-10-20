@@ -1,0 +1,14 @@
+{
+    "require": {
+        "mongodb/mongodb": "^1.7",
+        "guzzlehttp/guzzle": "^7.0",
+        "j7mbo/twitter-api-php": "^1.0",
+        "steampixel/simple-php-router": "^0.4.1",
+        "vlucas/phpdotenv": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lib\\": "lib/"
+        }
+    }
+}
