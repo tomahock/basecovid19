@@ -14,3 +14,6 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
 RUN apt-get install --yes nodejs
 RUN node -v
 RUN npm -v
+
+RUN composer install
+RUN npm install
