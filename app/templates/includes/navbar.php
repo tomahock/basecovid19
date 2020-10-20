@@ -10,7 +10,11 @@
 
     <!-- Collapsible content -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/top-contratadas">Top Contratadas</a>
+            </li>
+        </ul>
         <!-- Search form -->
         <form class="form-inline ml-auto" action="/entidade" method="GET">
             <div class="md-form my-0">
