@@ -230,9 +230,11 @@ class DataStore
         return $result['total'];
     }
 
-    static public function getTopContracted()
+    static public function getTopContracted($sort_param = 'count')
     {
         $collection = self::connect()->data;
+        $sorting = (object)[];
+        $sorting->{$sort_param == 'count' ? 'count' : 'sum_price'} = -1;
 
         $pipeline = array(
             array('$unwind' => array('path' => '$contracted')),
@@ -248,10 +250,9 @@ class DataStore
                 )
             ),
             array(
-                '$sort' => array('count' => -1)
+                '$sort' => $sorting
             ),
         );
-
         $result = $collection->aggregate($pipeline)->toArray();
         return $result;
     }

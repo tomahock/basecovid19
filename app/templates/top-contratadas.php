@@ -3,8 +3,8 @@ require_once '../vendor/autoload.php';
 
 use Lib\DataStore;
 
-
-$d = DataStore::getTopContracted();
+$sort = $_GET['sort'];
+$d = DataStore::getTopContracted($sort);
 
 unset($d['created']);
 unset($d['updated']);
@@ -22,6 +22,8 @@ include 'includes/head.php';
     <div class="row">
         <div class="col-12">
             <h2>Lista de entidades mais contratadas</h2>
+            <br>
+            Ordenar por <a href="?sort=count">contagem</a> | <a href="?sort=price">valor</a>
         </div>
     </div>
 
