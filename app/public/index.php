@@ -14,4 +14,8 @@ Route::add('/contrato', function() {
     include '../templates/contrato.php';
 });
 
+Route::add('/top-contratadas', function() {
+    include '../templates/top-contratadas.php';
+});
+
 Route::run('/');
