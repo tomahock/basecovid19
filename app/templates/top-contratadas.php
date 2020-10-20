@@ -9,7 +9,9 @@ $d = DataStore::getTopContracted();
 unset($d['created']);
 unset($d['updated']);
 
-$title = "TOP";
+$title = "TOP Contratos";
+$description = "Lista de entidades que mais contrataram com a keyword COVID19";
+
 
 include 'includes/head.php';
 
