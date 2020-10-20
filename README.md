@@ -4,6 +4,8 @@
 
 Monitorização da contratação pública que refere keywords relacionadas com a COVID19
 
+Disponível em https://base-covid19.pt
+
 License
 ----
 Copyright 2020
