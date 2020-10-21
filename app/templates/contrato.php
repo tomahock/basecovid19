@@ -116,7 +116,6 @@ include 'includes/head.php';
                 <?php endforeach; ?>
             </div>
 
-
             <div class="col-sm-12 col-md-4 title">
                 <p>Objeto do Contrato</p>
             </div>
@@ -187,6 +186,27 @@ include 'includes/head.php';
             </div>
             <div class="col-sm-12 col-md-8 description">
                 <p class="findr"><?= $d->nonWrittenContractJustificationTypes ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>endOfContractType</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->endOfContractType ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>causesPriceChange</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->causesPriceChange ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>causesDeadlineChange</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->causesDeadlineChange ?></p>
             </div>
         </div>
     <?php endif; ?>
