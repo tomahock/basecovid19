@@ -25,7 +25,7 @@ include 'includes/head.php';
 ?>
 
 
-<div class="container">
+<div class="container contract">
     <?php if(!$exists): ?>
         <div class="row">
             <div class="col-12">
@@ -57,32 +57,136 @@ include 'includes/head.php';
                 </div>
         </div>
 
-        <div class="row">
-            <div class="col-12">
-                <table class="table table-responsive table-bordered">
-                    <tbody>
-                        <?php foreach($d as $k => $v): ?>
-                            <tr>
-                                <td><?= $k ?></td>
-                                <td class="findr">
-                                    <?php if( $v instanceof  MongoDB\Model\BSONArray ):
-                                        foreach($v as $vv) {
-                                            if( $vv instanceof  MongoDB\Model\BSONDocument ){
-                                                foreach($vv as $vvv){
-                                                    echo "<span> {$vvv} </span>";
-                                                }
-                                            } else {
-                                                echo $vv;
-                                            }
-                                        } ?>
-                                    <?php else: ?>
-                                        <?= $v ?>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+        <div class="row mt-5">
+            <div class="col-sm-12 col-md-4 title">
+                <p>Data de publicação no BASE</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->publicationDate ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Tipo(s) de contrato</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->contractTypes ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Tipo de procedimento</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->contractingProcedureType ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Descrição</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->description ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Fundamentação</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->contractFundamentationType ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Fundamentação da necessidade de recurso ao ajuste direto (se aplicável)</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->directAwardFundamentationType ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Entidade adjudicante - Nome, NIF</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->contracting[0]->description ?> - <?= $d->contracting[0]->nif ?> <a href="/entidade?nif=<?= $d->contracting[0]->nif ?>">🔗</a></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Entidade adjudicatária - Nome, NIF</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <?php foreach($d->contracted as $c): ?>
+                    <p><span class="findr"><?= $c->description ?> - <?= $c->nif ?></span> <a href="/entidade?nif=<?= $c->nif ?>">🔗</a></p>
+                <?php endforeach; ?>
+            </div>
+
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Objeto do Contrato</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->objectBriefDescription ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Procedimento Centralizado</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->centralizedProcedure ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>CPV</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->cpvs ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Data de celebração do contrato</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->signingDate ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Preço contratual</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->initialContractualPrice ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Prazo de execução</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->executionDeadline ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Local de execução - País, Distrito, Concelho</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->executionPlace ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Concorrentes</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <?php foreach($d->contestants as $c): ?>
+                    <p><span class="findr"><?= $c->description ?></span> - <?= $c->nif ?> <a href="/entidade?nif=<?= $c->nif ?>">🔗</a></p>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Local de execução - País, Distrito, Concelho</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->executionPlace ?></p>
+            </div>
+
+            <div class="col-sm-12 col-md-4 title">
+                <p>Justificação de contrato não escrito</p>
+            </div>
+            <div class="col-sm-12 col-md-8 description">
+                <p class="findr"><?= $d->nonWrittenContractJustificationTypes ?></p>
             </div>
         </div>
     <?php endif; ?>

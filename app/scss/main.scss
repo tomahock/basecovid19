@@ -1,6 +1,6 @@
 $primary:       #C0242D !default;
 $secondary:     #85323A !default;
-
+$x: #eee;
 
 // Bootstrap file partials
 @import "../node_modules/bootstrap/scss/bootstrap";
@@ -10,4 +10,54 @@ $highlight: #C08894 !default;
   background-color: $highlight;
 }
 
+@include media-breakpoint-down(xs) {}
+@include media-breakpoint-down(sm) {
 
+  .contract{
+    .title{
+      margin-top: 1rem;
+      p{
+        margin: 0!important;
+        text-align: left !important;
+      }
+    }
+
+    .description{
+      p{
+        margin: 0!important;
+      }
+    }
+  }
+
+}
+@include media-breakpoint-down(md) {}
+@include media-breakpoint-down(lg) {}
+@include media-breakpoint-down(xl) {
+  .contract{
+    .title{
+      p{
+        text-align: right;
+      }
+    }
+
+    .description{
+      p{
+      }
+    }
+  }
+
+}
+.contract{
+  .title{
+    p{
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+  }
+
+  .description{
+    p{
+      margin: 0!important;
+    }
+  }
+}

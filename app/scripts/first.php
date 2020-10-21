@@ -6,7 +6,7 @@ use Lib\Datastore;
 
 $client = new GuzzleHttp\Client(['base_uri' => 'http://www.base.gov.pt/base2/rest/contratos/']);
 
-$initId = 6344250; //DataStore::getLastId(); //6944250
+$initId = DataStore::getLastId(); //6944250
 $options = array(
     'headers' => [
         'User-Agent' => 'basecovid19.pt/1.0',

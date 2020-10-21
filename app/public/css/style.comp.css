@@ -7158,3 +7158,10 @@ a.text-dark:hover, a.text-dark:focus {
 
 .highlight {
   background-color: #C08894; }
+
+.contrato .title p {
+  font-weight: bold;
+  font-size: 1rem; }
+
+.contrato .description p {
+  margin: 0 !important; }
