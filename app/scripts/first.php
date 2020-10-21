@@ -19,7 +19,7 @@ for ($i = $initId; $i <= $initId + 10000000; $i++) {
     $body = $response->getBody();
     $content = $body->getContents();
 
-    if (preg_match('/covid|corona|SARS-COV-2|nCoV-2019|SARS|epidemia|pandemia|COV2/i', $content)) {
+    if (preg_match('/covid|corona|SARS-COV-2|nCoV-2019|SARS|epidemia|pandemia|COV2|EPI|FFP2|ventilador|zaragatoa/i', $content)) {
         $contrato = json_decode($content);
         print_r($contrato);
         $price = $contrato->initialContractualPrice;

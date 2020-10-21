@@ -11,7 +11,7 @@
 
             <!-- Grid column -->
             <div class="col-md-10 col-12 mt-5">
-                <p style="line-height: 1.7rem">Todos os contratos que aparecem nesta página, têm uma das seguintes palavras no seu texto covid, corona, SARS-COV-2, nCoV-2019, SARS, epidemia, pandemia, COV2</p>
+                <p style="line-height: 1.7rem">Todos os contratos que aparecem nesta página, têm uma das seguintes palavras no seu texto covid, corona, SARS-COV-2, nCoV-2019, SARS, epidemia, pandemia, COV2, EPI, FFP2, ventilador ou zaragatoa</p>
                 <p style="line-height: 1.7rem">Essa palavra é colocada a <span class="highlight">sombreado</span></p>
                 <p style="line-height: 1.7rem">Se acha que um contrato não devia aparecer nesta página, envie um email para <a href="mailto:geral@basecovid19.pt">geral@base-covid19.pt</a> com o link desse contrato</p>
             </div>
