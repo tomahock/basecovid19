@@ -11,6 +11,12 @@ $count = \Lib\DataStore::getCount();
 
 $pages = ceil($count / $limit);
 
+if($page < 3){
+    $sPage = 1;
+} else {
+    $sPage = $page -2;
+}
+
 $title = 'Contratos';
 $description = 'Contratos do base.gov.pt que mencionam COVID19';
 include 'includes/head.php';
@@ -71,16 +77,16 @@ include 'includes/head.php';
                 <nav>
                     <ul class="pagination flex-wrap">
                         <li class="page-item <?php if ($page === 1): ?> disabled <?php endif; ?>">
-                            <a class="page-link" href="#" tabindex="-1">Anterior</a>
+                            <a class="page-link" href="/contratos?page=<?= $page-1 ?>&order=<?= $order ?>&sort=<?= $sort ?>">Anterior</a>
                         </li>
-                        <?php for ($p = $page - 2; $p <= $page + 6; $p++): ?>
+                        <?php for ($p = $sPage; $p <= $page + 6; $p++): ?>
                             <li class="page-item <?php if ($page === $p): ?> active<?php endif; ?>">
                                 <a class="page-link"
                                    href="/contratos?page=<?= $p ?>&order=<?= $order ?>&sort=<?= $sort ?>"><?= $p ?></a>
                             </li>
                         <?php endfor; ?>
                         <li class="page-item">
-                            <a class="page-link" href="#">Próxima</a>
+                            <a class="page-link" href="/contratos?page=<?= $page+1 ?>&order=<?= $order ?>&sort=<?= $sort ?>">Próxima</a>
                         </li>
                     </ul>
                 </nav>
