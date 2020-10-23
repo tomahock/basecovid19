@@ -14,7 +14,6 @@ $(function () {
         }))
     })
 
-    console.log('alal');
     $('.select').on('change', function(e){
         $('form').submit();
     })
