@@ -4,6 +4,7 @@ namespace Lib;
 
 require_once '/var/www/html/vendor/autoload.php';
 
+use MongoDB\BSON\Regex;
 use MongoDB\Client;
 use Lib\TwitterTools;
 
@@ -112,7 +113,7 @@ class DataStore
 
         $options = array(
             'sort' => array(
-                'id' => -1
+                '_id' => -1
             ),
             'limit' => 1
         );
@@ -150,6 +151,30 @@ class DataStore
         );
 
         return $collection->find([], $options);
+    }
+
+    static public function get($page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1)
+    {
+        $collection = self::connect()->data;
+
+        $skip = $page === 1 ? 0 : $page * $limit;
+
+        $options = array(
+            'sort' => array(
+                $sort => $order
+            ),
+            'limit' => $limit,
+            'skip' => $skip
+        );
+
+        return $collection->find([], $options);
+    }
+
+    static public function getCount($page = 1, $sort = 'signingDateParsed', $order = -1)
+    {
+        $collection = self::connect()->data;
+
+        return $collection->count([]);
     }
 
     static public function getLastByNif($nif, $limit = 10)
@@ -254,6 +279,26 @@ class DataStore
             ),
         );
         $result = $collection->aggregate($pipeline)->toArray();
+        return $result;
+    }
+
+    static public function getSearchedContracts($search, $page = 1)
+    {
+        $collection = self::connect()->data;
+
+        var_dump($search);
+        $query = array(
+            //'$or' => array(
+                array(
+                    'description' => array(
+                        'regex' => new Regex($search,'i')
+                    ),
+                )
+           // )
+        );
+
+        $result = $collection->find($query)->toArray();
+
         return $result;
     }
 }

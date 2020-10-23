@@ -14,6 +14,14 @@ Route::add('/contrato', function() {
     include '../templates/contrato.php';
 });
 
+Route::add('/contratos', function() {
+    include '../templates/contratos.php';
+});
+
+Route::add('/pesquisa', function() {
+    include '../templates/search.php';
+});
+
 Route::add('/top-contratadas', function() {
     include '../templates/top-contratadas.php';
 });
