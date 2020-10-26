@@ -74,8 +74,8 @@ include 'includes/head.php';
                 <div class="col-md-4 col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <p class="">🏛️ <?= $d->contracting[0]->description ?> <a href="entidade.php?nif=<?= $d->contracting[0]->nif ?>">🔗</a></p>
-                            <p class="">✒️<?= $d->contracted[0]->description ?> <a href="entidade.php?nif=<?= $d->contracted[0]->nif ?>">🔗</a></p>
+                            <p class="">🏛️ <?= $d->contracting[0]->description ?> <a href="entidade?nif=<?= $d->contracting[0]->nif ?>">🔗</a></p>
+                            <p class="">✒️<?= $d->contracted[0]->description ?> <a href="entidade?nif=<?= $d->contracted[0]->nif ?>">🔗</a></p>
                             <p class="findr">💸 <?= $d->initialContractualPrice ?></p>
                             <p class="findr">📅 <?= $d->signingDate?></p>
                             <p class="findr">📜 <?= $d->objectBriefDescription?></p>

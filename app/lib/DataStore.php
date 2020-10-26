@@ -203,7 +203,14 @@ class DataStore
         );
 
         $query = array(
-            'contracting.nif' => $nif
+            '$or' => array(
+                array(
+                    'contracting.nif' => $nif
+                ),
+                array(
+                    'contracted.nif' => $nif
+                ),
+            )
         );
 
         return $collection->find($query, $options);
@@ -215,7 +222,14 @@ class DataStore
         $collection = self::connect()->data;
 
         $query = array(
-            'contracting.nif' => (string)$nif
+            '$or' => array(
+                array(
+                    'contracting.nif' => $nif
+                ),
+                array(
+                    'contracted.nif' => $nif
+                ),
+            )
         );
 
         return $collection->count($query);
@@ -252,12 +266,12 @@ class DataStore
         $pipeline = array(
             array(
                 '$match' => array(
-                    'contracting.nif' => (string)$nif
+                    'contracted.nif' => (string)$nif
                 ),
             ),
             array(
                 '$group' => array(
-                    '_id' => '$contracting.nif',
+                    '_id' => 'contracted.nif',
                     'total' => array(
                         '$sum' => '$price'
                     )
