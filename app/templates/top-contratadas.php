@@ -31,7 +31,7 @@ include 'includes/head.php';
             <div class="col-md-12 col-sm-12">
                 <ul>
                     <?php foreach ($d as $contracted): ?>
-                        <li><a href="/entidade?nif=<?= $contracted->_id ?>"><?= $contracted->entidade->description ?> - <?= $contracted->_id ?></a>: <?= $contracted->count ?> contratos (total <?= $contracted->sum_price ?>€)</li>
+                        <li><a href="/entidade?nif=<?= $contracted->_id ?>"><?= $contracted->entidade->description ?> - <?= $contracted->_id ?></a>: <?= $contracted->count ?> contratos (total <?= number_format(sprintf('%0.2f', preg_replace("/[^0-9.]/", "", $contracted->sum_price)),2); ?>€)</li>
                     <?php endforeach; ?>
                 </ul>
 
