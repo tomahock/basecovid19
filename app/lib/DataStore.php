@@ -323,22 +323,98 @@ class DataStore
         return $result;
     }
 
-    static public function getSearchedContracts($search, $page = 1)
+    static public function getSearchedContracts($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1)
     {
         $collection = self::connect()->data;
+        $skip = $page === 1 ? 0 : $page * $limit;
 
-        var_dump($search);
-        $query = array(
-            //'$or' => array(
-            array(
-                'description' => array(
-                    '$regex' => new Regex($search, 'i')
-                ),
-            )
-            // )
+        $options = array(
+            'sort' => array(
+                $sort => $order
+            ),
+            'limit' => $limit,
+            'skip' => $skip
         );
 
-        $result = $collection->count($query);
+        $query = array(
+            '$or' => array(
+                array(
+                    'description' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                 array(
+                     'directAwardFundamentationType' => array(
+                         '$regex' => "{$search}"
+                     ),
+                 ),
+                array(
+                    'endOfContractType' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'objectBriefDescription' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'nonWrittenContractJustificationTypes' => array(
+                        '$regex' => "{$search}"
+                    ),
+                )
+            )
+        );
+
+        $result = $collection->find($query, $options);
+
+        return $result;
+    }
+
+    static public function getSearchedContractsCount($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1)
+    {
+        $collection = self::connect()->data;
+        $skip = $page === 1 ? 0 : $page * $limit;
+
+        $options = array(
+            'sort' => array(
+                $sort => $order
+            ),
+            'limit' => $limit,
+            'skip' => $skip
+        );
+
+        $query = array(
+            '$or' => array(
+                array(
+                    'description' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'directAwardFundamentationType' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'endOfContractType' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'objectBriefDescription' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'nonWrittenContractJustificationTypes' => array(
+                        '$regex' => "{$search}"
+                    ),
+                )
+            )
+        );
+
+        $result = $collection->count($query, $options);
 
         return $result;
     }

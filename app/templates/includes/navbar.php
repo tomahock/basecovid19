@@ -17,6 +17,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/top-contratadas">Top Contratadas</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/pesquisa">Pesquisa</a>
+            </li>
         </ul>
         <!-- Search form -->
         <form class="form-inline ml-auto" action="/entidade" method="GET">
