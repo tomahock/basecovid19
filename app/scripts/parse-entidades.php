@@ -6,11 +6,12 @@ use Lib\EntidadeStore;
 
 $client = new GuzzleHttp\Client(['base_uri' => 'http://www.base.gov.pt/base2/rest/entidades/']);
 
-$initId = 1042;//EntidadeStore::getLas1042;//tId(); //6944250
+$initId = EntidadeStore::getLastId(); //6944250
 $options = array(
     'headers' => [
         'User-Agent' => 'basecovid19.pt/1.0',
-    ]
+    ],
+    'proxy' => 'socks5://x8458594:KTnxw6cddH@proxy-nl.privateinternetaccess.com:1080'
 );
 
 for ($i = $initId; $i <= $initId + 100000; $i++) {

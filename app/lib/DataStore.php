@@ -96,6 +96,20 @@ class DataStore
         return $collection->findOne($query);
     }
 
+    static public function addReported($id)
+    {
+        $contract = self::getItemById((int)$id);
+
+        if ($contract->reported) {
+            $contract->reported += 1;
+        } else {
+            $contract->reported = 1;
+        }
+
+
+        self::updateById((int)$id, $contract);
+    }
+
     static public function getItemById($id)
     {
         $collection = self::connect()->data;
@@ -289,15 +303,15 @@ class DataStore
         var_dump($search);
         $query = array(
             //'$or' => array(
-                array(
-                    'description' => array(
-                        'regex' => new Regex($search,'i')
-                    ),
-                )
-           // )
+            array(
+                'description' => array(
+                    '$regex' => new Regex($search, 'i')
+                ),
+            )
+            // )
         );
 
-        $result = $collection->find($query)->toArray();
+        $result = $collection->count($query);
 
         return $result;
     }

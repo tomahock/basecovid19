@@ -26,4 +26,8 @@ Route::add('/top-contratadas', function() {
     include '../templates/top-contratadas.php';
 });
 
+Route::add('/api/v1/report', function() {
+    include '../API/report.php';
+}, 'post');
+
 Route::run('/');
