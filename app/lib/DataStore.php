@@ -291,6 +291,19 @@ class DataStore
             array(
                 '$sort' => $sorting
             ),
+            array(
+                '$limit' => 30
+            ),
+            array(
+                '$lookup' => array(
+                    'from' => 'entidades',
+                    'localField' => '_id',
+                    'foreignField' => 'nif',
+                    'as' => 'entidade'
+                )
+            ),
+            array('$unwind' => array('path' => '$entidade')),
+
         );
         $result = $collection->aggregate($pipeline)->toArray();
         return $result;
