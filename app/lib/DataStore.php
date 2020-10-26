@@ -191,15 +191,18 @@ class DataStore
         return $collection->count([]);
     }
 
-    static public function getLastByNif($nif, $limit = 10)
+    static public function getLastByNif($nif, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1)
     {
         $collection = self::connect()->data;
 
+        $skip = $page === 1 ? 0 : $page * $limit;
+
         $options = array(
             'sort' => array(
-                'id' => -1
+                $sort => $order
             ),
-            'limit' => $limit
+            'limit' => $limit,
+            'skip' => $skip
         );
 
         $query = array(
@@ -214,6 +217,24 @@ class DataStore
         );
 
         return $collection->find($query, $options);
+    }
+
+    static public function getLastByNifCount($nif)
+    {
+        $collection = self::connect()->data;
+
+        $query = array(
+            '$or' => array(
+                array(
+                    'contracting.nif' => $nif
+                ),
+                array(
+                    'contracted.nif' => $nif
+                ),
+            )
+        );
+
+        return $collection->count($query);
     }
 
 

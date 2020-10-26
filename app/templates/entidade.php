@@ -10,12 +10,28 @@ if(!empty($_GET['nif'])){
     $nif = $_GET['nif'];
 
     $entidade = EntidadeStore::getItemByNIF($nif);
-    $count = DataStore::getContractingContractsCount($nif);
-    $lastContracts = DataStore::getLastByNif($nif);
     $totalPrice = DataStore::getContractingContractsTotalPrice($nif);
     $totalPrice = number_format(sprintf('%0.2f', preg_replace("/[^0-9.]/", "", $totalPrice)),2);
     $totalWon = DataStore::getContractedContractsTotalPrice($nif);
     $totalWon = number_format(sprintf('%0.2f', preg_replace("/[^0-9.]/", "", $totalWon)),2);
+
+
+    $page = $_GET['page'] ? intval($_GET['page']) : 1;
+    $limit = 9;
+    $order = $_GET['order'] ? intval($_GET['order']) : -1;
+    $sort = $_GET['sort'] ? $_GET['sort'] : 'signingDateParsed';
+
+    $lastContracts = DataStore::getLastByNif($nif, $page, $sort, $limit, $order);
+    $count = DataStore::getLastByNifCount($nif);
+
+    $pages = ceil($count / $limit);
+
+    if($page < 3){
+        $sPage = 1;
+    } else {
+        $sPage = $page -2;
+    }
+
     if($entidade){
         $exists = true;
     }
@@ -90,6 +106,29 @@ include 'includes/head.php';
                 </div>
             <?php endforeach; ?>
         </div>
+
+        <?php if($count) : ?>
+            <div class="row mt-5">
+                <div class="col-12">
+                    <nav>
+                        <ul class="pagination flex-wrap">
+                            <li class="page-item <?php if ($page === 1): ?> disabled <?php endif; ?>">
+                                <a class="page-link" href="/entidade?nif=<?= $entidade->nif; ?>&page=<?= $page-1 ?>&order=<?= $order ?>&sort=<?= $sort ?>">Anterior</a>
+                            </li>
+                            <?php for ($p = $sPage; $p <= $page + 6; $p++): ?>
+                                <li class="page-item <?php if ($page === $p): ?> active<?php endif; ?>">
+                                    <a class="page-link"
+                                       href="/entidade?nif=<?= $entidade->nif; ?>&page=<?= $p ?>&order=<?= $order ?>&sort=<?= $sort ?>"><?= $p ?></a>
+                                </li>
+                            <?php endfor; ?>
+                            <li class="page-item">
+                                <a class="page-link" href="/entidade?nif=<?= $entidade->nif; ?>&page=<?= $page+1 ?>&order=<?= $order ?>&sort=<?= $sort ?>">Próxima</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
 
