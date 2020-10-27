@@ -1,8 +1,8 @@
 <?php
 
-require_once '../vendor/autoload.php';
+require_once __DIR__ . '../../vendor/autoload.php';
 
-use Lib\Datastore;
+use Lib\DataStore;
 
 $client = new GuzzleHttp\Client(['base_uri' => 'http://www.base.gov.pt/base2/rest/contratos/']);
 
