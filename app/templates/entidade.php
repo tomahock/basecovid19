@@ -99,7 +99,7 @@ include 'includes/head.php';
 
                         </div>
                         <div class="card-footer">
-                            <a class="btn btn-sm btn-primary" href="/contrato.php?id=<?= $d->id ?>">Detalhes</a>
+                            <a class="btn btn-sm btn-primary" href="/contrato?id=<?= $d->id ?>">Detalhes</a>
                             <a class="btn btn-sm btn-secondary" href="http://www.base.gov.pt/Base/pt/Pesquisa/Contrato?a=<?= $d->id?>" target="_blank">Original</a>
                         </div>
                     </div>
