@@ -344,7 +344,7 @@ class DataStore
         return $result;
     }
 
-    static public function getSearchedContracts($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1, $after = null, $before = null)
+    static public function getSearchedContracts($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1, $after = null, $before = null, $nif = null, $nif2 = null)
     {
         $collection = self::connect()->data;
         $skip = $page === 1 ? 0 : $page * $limit;
@@ -357,150 +357,29 @@ class DataStore
             'skip' => $skip
         );
 
-        $query = array(
-            '$or' => array(
-                array(
-                    'description' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'directAwardFundamentationType' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'endOfContractType' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'objectBriefDescription' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'nonWrittenContractJustificationTypes' => array(
-                        '$regex' => "{$search}"
-                    ),
-                )
-            )
-        );
-
-        if ($after) {
-            $query['signingDateParsed'] = array(
-                '$gte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $after)) * 1000)
-            );
-        }
-
-        if ($before) {
-            $query['signingDateParsed'] = array(
-                '$lte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $before)) * 1000)
-            );
-        }
+        $query = self::getSearchQuery($search, $after, $before, $nif, $nif2);
 
         $result = $collection->find($query, $options);
 
         return $result;
     }
 
-    static public function getSearchedContractsCount($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1, $after = null, $before = null)
+    static public function getSearchedContractsCount($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1, $after = null, $before = null, $nif = null, $nif2 = null)
     {
         $collection = self::connect()->data;
 
-        $query = array(
-            '$or' => array(
-                array(
-                    'description' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'directAwardFundamentationType' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'endOfContractType' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'objectBriefDescription' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'nonWrittenContractJustificationTypes' => array(
-                        '$regex' => "{$search}"
-                    ),
-                )
-            )
-        );
-
-        if ($after) {
-            $query['signingDateParsed'] = array(
-                '$gte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $after)) * 1000)
-            );
-        }
-
-        if ($before) {
-            $query['signingDateParsed'] = array(
-                '$lte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $before)) * 1000)
-            );
-        }
-
+        $query = self::getSearchQuery($search, $after, $before, $nif, $nif2);
 
         $result = $collection->count($query);
 
         return $result;
     }
 
-    static public function getSearchedContractsMeta($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1, $after = null, $before = null)
+    static public function getSearchedContractsMeta($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1, $after = null, $before = null, $nif = null, $nif2 = null)
     {
         $collection = self::connect()->data;
 
-        $query = array(
-            '$or' => array(
-                array(
-                    'description' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'directAwardFundamentationType' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'endOfContractType' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'objectBriefDescription' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'nonWrittenContractJustificationTypes' => array(
-                        '$regex' => "{$search}"
-                    ),
-                )
-            )
-        );
-
-        if ($after) {
-            $query['signingDateParsed'] = array(
-                '$gte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $after)) * 1000)
-            );
-        }
-
-        if ($before) {
-            $query['signingDateParsed'] = array(
-                '$lte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $before)) * 1000)
-            );
-        }
+        $query = self::getSearchQuery($search, $after, $before, $nif, $nif2);
 
         $pipeline = array(
             array(
@@ -524,5 +403,60 @@ class DataStore
         $result = $collection->aggregate($pipeline)->toArray()[0];
 
         return $result;
+    }
+
+    static private function getSearchQuery($search, $after, $before, $nif, $nif2)
+    {
+        $query = array(
+            '$or' => array(
+                array(
+                    'description' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'directAwardFundamentationType' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'endOfContractType' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'objectBriefDescription' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'nonWrittenContractJustificationTypes' => array(
+                        '$regex' => "{$search}"
+                    ),
+                )
+            )
+        );
+
+        if ($nif) {
+            $query['contracting.nif'] = $nif;
+        }
+
+        if ($nif2) {
+            $query['contracted.nif'] = $nif2;
+        }
+
+        if ($after) {
+            $query['signingDateParsed'] = array(
+                '$gte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $after)) * 1000)
+            );
+        }
+
+        if ($before) {
+            $query['signingDateParsed'] = array(
+                '$lte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $before)) * 1000)
+            );
+        }
+
+        return $query;
     }
 }

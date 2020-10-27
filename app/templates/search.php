@@ -10,14 +10,16 @@ $page = $_GET['page'] ? intval($_GET['page']) : 1;
 $limit = 9;
 $order = $_GET['order'] ? intval($_GET['order']) : -1;
 $sort = $_GET['sort'] ? htmlentities($purifier->purify($_GET['sort']), ENT_QUOTES, 'UTF-8') : 'signingDateParsed';
+$nif = $_GET['nif'] ? $_GET['nif'] : null;
+$nif2 = $_GET['nif2'] ? $_GET['nif2'] : null;
 
 $after = $_GET['after'] ?  htmlentities($purifier->purify($_GET['after']), ENT_QUOTES, 'UTF-8') : null;
 $before = $_GET['before'] ?  htmlentities($purifier->purify($_GET['before']), ENT_QUOTES, 'UTF-8') : null;
 
 
-$data = Lib\DataStore::getSearchedContracts($search, $page, $sort, $limit, $order, $after, $before);
-$count = Lib\DataStore::getSearchedContractsCount($search, $page, $sort, $limit, $order, $after, $before);
-$meta = \Lib\DataStore::getSearchedContractsMeta($search, $page, $sort, $limit, $order, $after, $before);
+$data = Lib\DataStore::getSearchedContracts($search, $page, $sort, $limit, $order, $after, $before, $nif, $nif2);
+$count = Lib\DataStore::getSearchedContractsCount($search, $page, $sort, $limit, $order, $after, $before, $nif, $nif2);
+$meta = \Lib\DataStore::getSearchedContractsMeta($search, $page, $sort, $limit, $order, $after, $before, $nif, $nif2);
 
 $pages = ceil($count / $limit);
 
@@ -41,6 +43,18 @@ include 'includes/head.php';
                 <label for="search" class="col-sm-2 col-form-label">Pesquisa</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="search" id="search" value="<?= $search ?>"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="search" class="col-sm-2 col-form-label">Adjudicante (NIF)</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="nif" id="nif" value="<?= $nif ?>"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="search" class="col-sm-2 col-form-label">Adjudicatária  (NIF)</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="nif2" id="nif" value="<?= $nif2 ?>"/>
                 </div>
             </div>
             <div class="form-group row">
