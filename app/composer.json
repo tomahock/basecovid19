@@ -5,7 +5,8 @@
         "j7mbo/twitter-api-php": "^1.0",
         "steampixel/simple-php-router": "^0.4.1",
         "vlucas/phpdotenv": "^5.2",
-        "ext-mongodb": "*"
+        "ext-mongodb": "*",
+        "ezyang/htmlpurifier": "^4.13"
     },
     "autoload": {
         "psr-4": {

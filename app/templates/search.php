@@ -1,18 +1,23 @@
 <?php
 require_once '../vendor/autoload.php';
 
-use Lib\DataStore;
+$config = HTMLPurifier_Config::createDefault();
+$purifier = new HTMLPurifier($config);
 
-$search = $_GET['search'];
+$search =  htmlentities($purifier->purify($_GET['search']), ENT_QUOTES, 'UTF-8');
 $page = $_GET['page'] ? intval($_GET['page']) : 1;
 
 $limit = 9;
 $order = $_GET['order'] ? intval($_GET['order']) : -1;
-$sort = $_GET['sort'] ? $_GET['sort'] : 'signingDateParsed';
+$sort = $_GET['sort'] ? htmlentities($purifier->purify($_GET['sort']), ENT_QUOTES, 'UTF-8') : 'signingDateParsed';
 
-$data = DataStore::getSearchedContracts($search, $page, $sort, $limit, $order);
-//$data = \Lib\DataStore::get($page, $sort, $limit, $order);
-$count = \Lib\DataStore::getSearchedContractsCount($search, $page, $sort, $limit, $order);
+$after = $_GET['after'] ?  htmlentities($purifier->purify($_GET['after']), ENT_QUOTES, 'UTF-8') : null;
+$before = $_GET['before'] ?  htmlentities($purifier->purify($_GET['before']), ENT_QUOTES, 'UTF-8') : null;
+
+
+$data = Lib\DataStore::getSearchedContracts($search, $page, $sort, $limit, $order, $after, $before);
+$count = Lib\DataStore::getSearchedContractsCount($search, $page, $sort, $limit, $order, $after, $before);
+$meta = \Lib\DataStore::getSearchedContractsMeta($search, $page, $sort, $limit, $order, $after, $before);
 
 $pages = ceil($count / $limit);
 
@@ -30,8 +35,7 @@ include 'includes/head.php';
 
 ?>
 
-
-    <div class="container mt-1">
+    <div class="container mt-3">
         <form>
             <div class="form-group row">
                 <label for="search" class="col-sm-2 col-form-label">Pesquisa</label>
@@ -39,10 +43,45 @@ include 'includes/head.php';
                     <input type="text" class="form-control" name="search" id="search" value="<?= $search ?>"/>
                 </div>
             </div>
+            <div class="form-group row">
+                <label for="after" class="col-sm-2 col-form-label">Depois de</label>
+                <div class="input-group date col-sm-10" data-provide="datepicker" data-date-format="dd/mm/yyyy">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                        </div>
+                        <input type="text" class="form-control" name="after" id="after" value="<?= $after; ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="before" class="col-sm-2 col-form-label">Antes de</label>
+                <div class="input-group date col-sm-10" data-provide="datepicker" data-date-format="dd/mm/yyyy">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                        </div>
+                        <input type="text" class="form-control" name="before" id="before" value="<?= $before; ?>">
+                    </div>
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary mb-2">Pesquisar</button>
         </form>
     </div>
 
+    <div class="container mt-1">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <p>Total de contratos: <?= $count; ?></p>
+                        <p>Total custo: <?= number_format(sprintf('%0.2f', preg_replace("/[^0-9.]/", "", $meta['sum_price'])),2); ?>€</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container mt-1">
 
         <div class="row">

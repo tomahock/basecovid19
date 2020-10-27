@@ -101,6 +101,8 @@ class TwitterTools
 
             $r = json_decode($response);
 
+            print_r($r);
+
             $lastId = $r->id;
         }
 

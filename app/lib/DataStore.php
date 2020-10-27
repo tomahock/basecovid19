@@ -61,7 +61,7 @@ class DataStore
     {
         $text = "ℹ Novo Contrato ℹ\r\n\r\n 🏛️ Adjudicante: {$data->contracting[0]->description}\r\n ✒️Adjudicatário: {$data->contracted[0]->description}\r\n \r\n 💸 Valor: {$data->initialContractualPrice}\r\n \r\n 📅 Data: {$data->signingDate}\r\n\r\n 📜 Descrição: {$data->objectBriefDescription} \r\n\r\n 🏷️ Tipo: {$data->contractingProcedureType}\r\n\r\n 🔗 https://base-covid19.pt/contrato?id={$data->id} \r\n\r\n 🔗 http://www.base.gov.pt/Base/pt/Pesquisa/Contrato?a={$data->id}";
 
-//        TwitterTools::tweet($text);
+        TwitterTools::tweet($text);
     }
 
     static public function saveLastId($id)
@@ -344,55 +344,7 @@ class DataStore
         return $result;
     }
 
-    static public function getSearchedContracts($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1)
-    {
-        $collection = self::connect()->data;
-        $skip = $page === 1 ? 0 : $page * $limit;
-
-        $options = array(
-            'sort' => array(
-                $sort => $order
-            ),
-            'limit' => $limit,
-            'skip' => $skip
-        );
-
-        $query = array(
-            '$or' => array(
-                array(
-                    'description' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                 array(
-                     'directAwardFundamentationType' => array(
-                         '$regex' => "{$search}"
-                     ),
-                 ),
-                array(
-                    'endOfContractType' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'objectBriefDescription' => array(
-                        '$regex' => "{$search}"
-                    ),
-                ),
-                array(
-                    'nonWrittenContractJustificationTypes' => array(
-                        '$regex' => "{$search}"
-                    ),
-                )
-            )
-        );
-
-        $result = $collection->find($query, $options);
-
-        return $result;
-    }
-
-    static public function getSearchedContractsCount($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1)
+    static public function getSearchedContracts($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1, $after = null, $before = null)
     {
         $collection = self::connect()->data;
         $skip = $page === 1 ? 0 : $page * $limit;
@@ -435,7 +387,141 @@ class DataStore
             )
         );
 
-        $result = $collection->count($query, $options);
+        if ($after) {
+            $query['signingDateParsed'] = array(
+                '$gte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $after)) * 1000)
+            );
+        }
+
+        if ($before) {
+            $query['signingDateParsed'] = array(
+                '$lte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $before)) * 1000)
+            );
+        }
+
+        $result = $collection->find($query, $options);
+
+        return $result;
+    }
+
+    static public function getSearchedContractsCount($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1, $after = null, $before = null)
+    {
+        $collection = self::connect()->data;
+
+        $query = array(
+            '$or' => array(
+                array(
+                    'description' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'directAwardFundamentationType' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'endOfContractType' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'objectBriefDescription' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'nonWrittenContractJustificationTypes' => array(
+                        '$regex' => "{$search}"
+                    ),
+                )
+            )
+        );
+
+        if ($after) {
+            $query['signingDateParsed'] = array(
+                '$gte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $after)) * 1000)
+            );
+        }
+
+        if ($before) {
+            $query['signingDateParsed'] = array(
+                '$lte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $before)) * 1000)
+            );
+        }
+
+
+        $result = $collection->count($query);
+
+        return $result;
+    }
+
+    static public function getSearchedContractsMeta($search, $page = 1, $sort = 'signingDateParsed', $limit = 9, $order = -1, $after = null, $before = null)
+    {
+        $collection = self::connect()->data;
+
+        $query = array(
+            '$or' => array(
+                array(
+                    'description' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'directAwardFundamentationType' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'endOfContractType' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'objectBriefDescription' => array(
+                        '$regex' => "{$search}"
+                    ),
+                ),
+                array(
+                    'nonWrittenContractJustificationTypes' => array(
+                        '$regex' => "{$search}"
+                    ),
+                )
+            )
+        );
+
+        if ($after) {
+            $query['signingDateParsed'] = array(
+                '$gte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $after)) * 1000)
+            );
+        }
+
+        if ($before) {
+            $query['signingDateParsed'] = array(
+                '$lte' => new \MongoDB\BSON\UTCDateTime(strtotime(str_replace("/", "-", $before)) * 1000)
+            );
+        }
+
+        $pipeline = array(
+            array(
+                '$match' => $query
+            ),
+            array(
+                '$group' => array(
+                    '_id' => -1,
+                    'count' => array(
+                        '$sum' => 1
+                    ),
+                    'sum_price' => array(
+                        '$sum' => '$price'
+                    )
+                )
+            ),
+            array(
+                '$limit' => 30
+            ),
+        );
+        $result = $collection->aggregate($pipeline)->toArray()[0];
 
         return $result;
     }
