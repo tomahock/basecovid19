@@ -23,7 +23,7 @@ if (empty($_POST['h-captcha-response'])) {
 $token = $_POST['h-captcha-response'];
 
 $data = array(
-    'secret' => '0xde75819D053A74FC265BD33ECDC4293316b2d046', //$_ENV['hcaptcha_secret_key'],
+    'secret' => $_ENV['hcaptcha_secret_key'],
     'response' => $token
 );
 
