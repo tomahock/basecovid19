@@ -10,8 +10,11 @@ $options = array(
     'headers' => [
         'User-Agent' => 'basecovid19.pt/1.0',
     ],
-    'proxy' => 'socks5://x8458594:KTnxw6cddH@proxy-nl.privateinternetaccess.com:1080'
 );
+
+if($_ENV['proxy']){
+    $options['proxy'] = $_ENV['proxy_url'];
+}
 
 for ($i = $initId; $i <= $initId + 10000000; $i++) {
     var_dump($i);

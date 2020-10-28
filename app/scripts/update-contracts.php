@@ -13,6 +13,10 @@ $options = array(
     ]
 );
 
+if($_ENV['proxy']){
+    $options['proxy'] = $_ENV['proxy_url'];
+}
+
 for ($i = $initId; $i <= $initId + 100000; $i++) {
     var_dump($i);
     $response = $client->request('GET', (string)$i, $options);
