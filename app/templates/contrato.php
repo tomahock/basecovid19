@@ -121,7 +121,7 @@ include 'includes/head.php';
                     <p>Entidade adjudicante - Nome, NIF</p>
                 </div>
                 <div class="col-sm-12 col-md-8 description">
-                    <p class="findr"><?= $d->contracting[0]->description ?> - <?= $d->contracting[0]->nif ?> <a
+                    <p><span class="findr"><?= $d->contracting[0]->description ?> - <?= $d->contracting[0]->nif ?></span> <a
                                 href="/entidade?nif=<?= $d->contracting[0]->nif ?>">🔗</a></p>
                 </div>
 
