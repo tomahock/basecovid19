@@ -1,19 +1,7 @@
 <div class="container">
     <div class="row mt-5">
         <div class="col-12">
-            <script type="text/javascript">
-                amzn_assoc_ad_type = "banner";
-                amzn_assoc_marketplace = "amazon";
-                amzn_assoc_region = "US";
-                amzn_assoc_placement = "assoc_banner_placement_default";
-                amzn_assoc_banner_type = "ez";
-                amzn_assoc_p = "48";
-                amzn_assoc_width = "728";
-                amzn_assoc_height = "90";
-                amzn_assoc_tracking_id = "basecovid19-20";
-                amzn_assoc_linkid = "bb8b8e991cc1b2a404bccdbc2848f456";
-            </script>
-            <script src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1"></script>
+
         </div>
     </div>
 </div>
